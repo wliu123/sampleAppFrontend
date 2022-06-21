@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Axios from 'axios'
+import Paper from '@mui/material/Paper';
 
 const Student = () => {
     
@@ -22,7 +22,11 @@ const Student = () => {
             },
             body: JSON.stringify(fields)
         })
-        .then(res => console.log(res))
+        .then(res => res.json())
+        .then(data => setStudents([
+            ...students,
+            fields
+        ]))
     }
 
     useEffect(() => {
@@ -65,6 +69,18 @@ const Student = () => {
         />
       </Box>
         <Button variant="contained" onClick={handleClick}>Submit</Button>
+        <Typography variant="h4" component="div" sx={{textAlign:"center", pt: 5}}>
+            Students List
+        </Typography>
+        <Paper elevation={3}>
+        {students.map((student) => (
+            <Paper elevation={6} style={{margin:'10px', padding:'15px', textAlign:'left'}} key={student.id}>
+            Id: {student.id} <br/>
+            Name: {student.name} <br/>
+            Address: {student.address} <br/>
+            </Paper>
+        ))}
+        </Paper>
         </>
     )
     
